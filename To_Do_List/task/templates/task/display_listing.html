@@ -1,0 +1,82 @@
+{% extends 'task/layout.html' %}
+{% load static %}
+{% block body %}
+<style>
+.task-filter-form {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+.task-filter-form input,
+.task-filter-form select {
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.task-filter-form button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+/* Style for task list items with different priority levels */
+ul li {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+ul li a {
+    text-decoration: none;
+    color: #007bff;
+    margin-left: 10px;
+}
+
+ul li a:hover {
+    text-decoration: underline;
+}
+</style>
+<h1>Your Tasks</h1>
+
+<!-- Filter Form -->
+<form method="get" class="task-filter-form">
+    <!-- Search bar -->
+    <input type="text" name="search" placeholder="Search by task" value="{{ request.GET.search }}">
+    
+    <!-- Priority filter -->
+    <select name="priority">
+        <option value="">Select Priority</option>
+        <option value="1" {% if request.GET.priority == "1" %} selected {% endif %}>Easy</option>
+        <option value="2" {% if request.GET.priority == "2" %} selected {% endif %}>Medium</option>
+        <option value="3" {% if request.GET.priority == "3" %} selected {% endif %}>Hard</option>
+    </select>
+
+    <!-- Date filters -->
+    <input type="date" name="start_date" value="{{ request.GET.start_date }}">
+    <input type="date" name="end_date" value="{{ request.GET.end_date }}">
+
+    <button type="submit">Filter</button>
+</form>
+
+<!-- Task List -->
+<ul>
+    {% for listing in listings %}
+        <li style="background-color: {% if listing.Priority == 1 %}#d4f1d4{% elif listing.Priority == 2 %}#ffe8a1{% elif listing.Priority == 3 %}#f8d7da{% endif %}">
+            <strong>{{ listing.role }}</strong> |
+            Category: {{ listing.category.name }} |
+            Priority: {{ listing.get_Priority_display }} |
+            From {{ listing.start_date }} to {{ listing.end_date }}
+
+            <a href="{% url 'edit_listing' listing.id %}">Edit</a> |
+            <a href="{% url 'delete_listing' listing.id %}">Delete</a>
+        </li>
+    {% empty %}
+        <li>No active listings.</li>
+    {% endfor %}
+</ul>
+
+<a class="nav-link" href="{% url 'create_listing' %}">Add New Task</a>
+{% endblock %}

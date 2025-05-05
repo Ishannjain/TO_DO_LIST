@@ -1,0 +1,39 @@
+{% extends 'task/layout.html' %}
+{% load static %}
+{% block body%}
+<h2>Edit Task</h2>
+<form method="post">
+    {% csrf_token %}
+    
+    <label>Category:</label>
+    <select name="category" required>
+        {% for category in categories %}
+            <option value="{{ category.id }}" {% if listing.category.id == category.id %}selected{% endif %}>
+                {{ category.name }}
+            </option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Priority:</label>
+    <select name="priority" required>
+        <option value="1" {% if listing.Priority == 1 %}selected{% endif %}>Easy</option>
+        <option value="2" {% if listing.Priority == 2 %}selected{% endif %}>Medium</option>
+        <option value="3" {% if listing.Priority == 3 %}selected{% endif %}>Hard</option>
+    </select><br><br>
+
+    <label>Start Date:</label>
+    <input type="date" name="start_date" value="{{ listing.start_date }}" required><br><br>
+
+    <label>End Date:</label>
+    <input type="date" name="end_date" value="{{ listing.end_date }}" required><br><br>
+
+    <label>Role:</label>
+    <input type="text" name="role" value="{{ listing.role }}" required><br><br>
+
+    <label>Is Active:</label>
+    <input type="checkbox" name="isActive" {% if listing.isActive %}checked{% endif %}><br><br>
+
+    <button type="submit">Update Task</button>
+</form>
+<a href="{% url 'display_listing' %}">Back to list</a>
+{% endblock %}

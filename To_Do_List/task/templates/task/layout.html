@@ -1,0 +1,100 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}To Do List{% endblock %}</title>
+    <!-- Bootstrap CSS (for base styles) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
+          crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center">To Do List</h1>
+        
+        <div class="text-center mb-4">
+            {% if user.is_authenticated %}
+                <p>Signed in as <strong>{{ user.username }}</strong>.</p>
+            {% else %}
+                <p>Not signed in.</p>
+            {% endif %}
+        </div>
+
+        <ul class="nav justify-content-center">
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'display_listing' %}">List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'categories_list' %}">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
+            {% endif %}
+        </ul>
+
+        <hr>
+
+        {% block body %}
+        {% endblock %}
+    </div>
+</body>
+</html>
+<style>
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+    color: #343a40;
+}
+
+h1 {
+    color: #007bff;
+    font-size: 2.5rem;
+    margin-top: 20px;
+}
+
+.nav {
+    margin-top: 20px;
+}
+
+.nav-link {
+    font-size: 1.1rem;
+    color: #007bff !important;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #0056b3 !important;
+    text-decoration: underline;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.container {
+    max-width: 960px;
+}
+
+hr {
+    border-top: 1px solid #dee2e6;
+}
+
+.navbar {
+    margin-bottom: 20px;
+}
+</style>
