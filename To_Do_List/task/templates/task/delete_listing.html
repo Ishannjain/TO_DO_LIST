@@ -1,0 +1,12 @@
+{% extends  'task/layout.html'%}
+{% load static %}
+{% block body%}
+<h2>Delete Task</h2>
+<p>Are you sure you want to delete the task: <strong>{{ listing.role }}</strong>?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, Delete</button>
+    <a href="{% url 'display_listing' %}">Cancel</a>
+</form>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "task/layout.html" %}
+{% load static %}
+{% block body %}
+<h2>Create Listing</h2>
+<form method="post">
+    {% csrf_token %}
+    
+    <label>Category:</label>
+    <select name="category" required>
+        {% for category in categories %}
+            <option value="{{ category.id }}">{{ category.name }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Priority:</label>
+    <select name="priority" required>
+        <option value="1">Easy</option>
+        <option value="2">Medium</option>
+        <option value="3">Hard</option>
+    </select><br><br>
+
+    <label>Start Date:</label>
+    <input type="date" name="start_date" required><br><br>
+
+    <label>End Date:</label>
+    <input type="date" name="end_date" required><br><br>
+
+    <label>Role:</label>
+    <input type="text" name="role" required><br><br>
+
+    <label>Is Active:</label>
+    <input type="checkbox" name="isActive" checked><br><br>
+
+    <button type="submit">Create Listing</button>
+</form>
+{% endblock%}
